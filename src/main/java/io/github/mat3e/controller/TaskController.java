@@ -5,17 +5,16 @@ import io.github.mat3e.model.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;
-import org.springframework.data.rest.core.annotation.RestResource;
-import org.springframework.data.rest.webmvc.RepositoryRestController;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.*;
 
-import java.lang.reflect.Method;
+import javax.validation.Valid;
+import java.net.URI;
 import java.util.List;
 
-@RepositoryRestController
+//@Controller
+@RestController
 class TaskController {
 
     public static final Logger logger = LoggerFactory.getLogger(TaskController.class);
@@ -25,6 +24,7 @@ class TaskController {
         this.repository = repository;
     }
 
+//    @RequestMapping(method = RequestMethod.GET, value = "/tasks", params = {"!sort", "!page", "!size"})
     @GetMapping(value = "/tasks", params = {"!sort", "!page", "!size"})
     ResponseEntity<List<Task>> /*List<Task>*/ readAllTasks() {
         logger.warn("Exposing all the tasks!");
@@ -32,11 +32,46 @@ class TaskController {
         /*return repository.findAll();*/
     }
 
+//    @RequestMapping(method = RequestMethod.GET, value = "/tasks")
     @GetMapping(value = "/tasks")
     ResponseEntity<List<Task>> /*List<Task>*/ readAllTasks(Pageable page) {
         logger.info("Custom pager");
         return ResponseEntity.ok(repository.findAll(page).getContent());
         /*return repository.findAll();*/
+    }
+
+//    @RequestMapping(method = RequestMethod.GET, value = "/tasks/{id}")
+    @GetMapping(value = "/tasks/{id}")
+    ResponseEntity<Task> readTask(@PathVariable int id) {
+
+        return repository.findById(id)
+                .map(task -> ResponseEntity.ok(task))
+                .orElse(ResponseEntity.notFound().build());
+
+    }
+
+//    @RequestMapping(method = RequestMethod.PUT, value = "/tasks/{id}")
+    @PutMapping(value = "/tasks/{id}")
+    ResponseEntity<?> updateTask(@PathVariable int id, @RequestBody @Valid Task toUpdate) {
+        if (!repository.existsById(id)) {
+            return ResponseEntity.notFound().build();
+        }
+        toUpdate.setId(id);
+        logger.info("Zapisano dane");
+        repository.save(toUpdate);
+
+        return ResponseEntity.noContent().build();
+    }
+
+
+//    @RequestMapping(method = RequestMethod.POST, value = "/tasks")
+    @PostMapping(value = "/tasks")
+    ResponseEntity<Task> createTask(@RequestBody @Valid Task toCreate) {
+
+        Task task = repository.save(toCreate);
+
+        return ResponseEntity.created(URI.create("/"+task.getId())).body(task);
+
     }
 
 }
