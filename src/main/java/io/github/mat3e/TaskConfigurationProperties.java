@@ -14,9 +14,6 @@ public class TaskConfigurationProperties {
 
 
     public Template getTemplate() {
-        if (template == null) {
-            template = new Template();
-        }
         return template;
     }
 
@@ -27,13 +24,12 @@ public class TaskConfigurationProperties {
     public static class Template {
         private boolean allowMultipleTasks;
 
-
-        public boolean isAllowMultipleTasksFromTemplate() {
+        public boolean isAllowMultipleTasks() {
             return allowMultipleTasks;
         }
 
-        public void setAllowMultipleTasksFromTemplate(boolean allowMultipleTasksFromTemplate) {
-            this.allowMultipleTasks = allowMultipleTasksFromTemplate;
+        public void setAllowMultipleTasks(boolean allowMultipleTasks) {
+            this.allowMultipleTasks = allowMultipleTasks;
         }
     }
 }
