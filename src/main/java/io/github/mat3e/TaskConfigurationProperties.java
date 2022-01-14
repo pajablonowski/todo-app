@@ -4,9 +4,6 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Configuration;
 
 @Configuration
-@ConfigurationProperties(
-        prefix = "task"
-)
 public class TaskConfigurationProperties {
 
 
@@ -20,8 +17,9 @@ public class TaskConfigurationProperties {
     public void setTemplate(Template template) {
         this.template = template;
     }
-    @Configuration
-    @ConfigurationProperties
+    @ConfigurationProperties(
+            prefix = "task"
+    )
     public static class Template {
         private boolean allowMultipleTasks;
 

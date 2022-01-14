@@ -10,6 +10,7 @@ import javax.validation.Validator;
 
 
 @SpringBootApplication
+@EnableConfigurationProperties({TaskConfigurationProperties.Template.class})
 public class TodoAppApplication {
 
 	public static void main(String[] args) {
