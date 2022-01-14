@@ -20,7 +20,8 @@ public class TaskConfigurationProperties {
     public void setTemplate(Template template) {
         this.template = template;
     }
-
+    @Configuration
+    @ConfigurationProperties
     public static class Template {
         private boolean allowMultipleTasks;
 

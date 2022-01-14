@@ -13,12 +13,12 @@ import org.springframework.web.bind.annotation.RestController;
 public class InfoController {
 
     private DataSourceProperties url;
-    private TaskConfigurationProperties taskConfigurationProperties;
+    private TaskConfigurationProperties.Template template;
 
 
-    public InfoController(DataSourceProperties url, TaskConfigurationProperties taskConfigurationProperties) {
+    public InfoController(DataSourceProperties url, TaskConfigurationProperties.Template template) {
         this.url = url;
-        this.taskConfigurationProperties = taskConfigurationProperties;
+        this.template = template;
     }
 
     @GetMapping("/info/url")
@@ -28,6 +28,6 @@ public class InfoController {
 
     @GetMapping("/info/prop")
     boolean myProp() {
-        return this.taskConfigurationProperties.getTemplate().isAllowMultipleTasks();
+        return this.template.isAllowMultipleTasks();
     }
 }
