@@ -4,6 +4,7 @@ package io.github.mat3e.model;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
+import java.time.LocalDateTime;
 
 @Entity
 @Table(name = "tasks")
@@ -17,6 +18,16 @@ public class Task {
     private String description;
 
     private boolean done;
+
+    private LocalDateTime deadline;
+
+    @Embedded
+    private Audit audit = new Audit();
+
+    @ManyToOne
+    @JoinColumn(name = "task_group_id")
+    private TaskGroup group;
+
 
 
     public Task() {
@@ -44,5 +55,28 @@ public class Task {
 
     public void setDone(boolean done) {
         this.done = done;
+    }
+
+    public LocalDateTime getDeadline() {
+        return deadline;
+    }
+
+    public void setDeadline(LocalDateTime deadline) {
+        this.deadline = deadline;
+    }
+
+    TaskGroup getGroup() {
+        return group;
+    }
+
+    void setGroup(TaskGroup group) {
+        this.group = group;
+    }
+
+    public void updateFrom(Task task){
+        this.description = task.description;
+        this.done = task.done;
+        this.deadline = task.deadline;
+        this.group = task.group;
     }
 }
