@@ -7,7 +7,7 @@ public interface TaskGroupRepository {
 
     List<TaskGroup> getAll();
 
-    Optional<TaskGroup> findById();
+    Optional<TaskGroup> findById(Integer id);
 
     TaskGroup save(TaskGroup entity);
 
