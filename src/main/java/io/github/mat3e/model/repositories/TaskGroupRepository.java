@@ -1,4 +1,6 @@
-package io.github.mat3e.model;
+package io.github.mat3e.model.repositories;
+
+import io.github.mat3e.model.TaskGroup;
 
 import java.util.List;
 import java.util.Optional;
@@ -10,5 +12,7 @@ public interface TaskGroupRepository {
     Optional<TaskGroup> findById(Integer id);
 
     TaskGroup save(TaskGroup entity);
+
+    boolean existsByDoneIsFalseAndProject_Id(Integer projectId);
 
 }
