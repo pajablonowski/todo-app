@@ -1,7 +1,6 @@
 package io.github.mat3e.model;
 
 
-
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import java.time.LocalDateTime;
@@ -29,8 +28,12 @@ public class Task {
     private TaskGroup group;
 
 
-
     public Task() {
+    }
+
+    public Task(String description, LocalDateTime deadline) {
+        this.description = description;
+        this.deadline = deadline;
     }
 
     public Integer getId() {
@@ -73,7 +76,7 @@ public class Task {
         this.group = group;
     }
 
-    public void updateFrom(Task task){
+    public void updateFrom(Task task) {
         this.description = task.description;
         this.done = task.done;
         this.deadline = task.deadline;
