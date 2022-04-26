@@ -1,7 +1,7 @@
 package io.github.mat3e.controller;
 
 import io.github.mat3e.model.Task;
-import io.github.mat3e.model.repositories.TaskRepository;
+import io.github.mat3e.model.TaskRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Pageable;

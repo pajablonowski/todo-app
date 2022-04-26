@@ -5,8 +5,8 @@ import io.github.mat3e.model.Project;
 import io.github.mat3e.model.Task;
 import io.github.mat3e.model.TaskGroup;
 import io.github.mat3e.model.projection.GroupReadModel;
-import io.github.mat3e.model.repositories.ProjectRepository;
-import io.github.mat3e.model.repositories.TaskGroupRepository;
+import io.github.mat3e.model.ProjectRepository;
+import io.github.mat3e.model.TaskGroupRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
@@ -37,7 +37,7 @@ public class ProjectService {
     }
 
     public GroupReadModel createGroup(LocalDateTime deadline, int projectId) {
-        if (config.getTemplate().isAllowMultipleTasks() && taskGroupRepository.existsByDoneIsFalseAndProject_Id(projectId)) {
+        if (!config.getTemplate().isAllowMultipleTasks() && taskGroupRepository.existsByDoneIsFalseAndProject_Id(projectId)) {
             throw new IllegalStateException("Only one undone group from project is allowed");
         }
         TaskGroup result = repository.findById(projectId)
@@ -51,7 +51,8 @@ public class ProjectService {
                                             deadline.plusDays(projectStep.getDaysToDeadline()))
                                     ).collect(Collectors.toSet())
                     );
-                    return targetGroup;
+                    targetGroup.setProject(project);
+                    return taskGroupRepository.save(targetGroup);
                 }).orElseThrow(() -> new IllegalArgumentException("project with given id not found"));
         return new GroupReadModel(result);
     }

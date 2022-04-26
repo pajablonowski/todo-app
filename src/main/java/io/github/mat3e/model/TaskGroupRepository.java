@@ -1,4 +1,4 @@
-package io.github.mat3e.model.repositories;
+package io.github.mat3e.model;
 
 import io.github.mat3e.model.TaskGroup;
 
