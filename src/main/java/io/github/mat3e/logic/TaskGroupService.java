@@ -1,19 +1,15 @@
 package io.github.mat3e.logic;
 
 
-import io.github.mat3e.TaskConfigurationProperties;
-import io.github.mat3e.model.Task;
 import io.github.mat3e.model.TaskGroup;
 import io.github.mat3e.model.projection.GroupReadModel;
-import io.github.mat3e.model.projection.GroupTaskWriteModel;
 import io.github.mat3e.model.projection.GroupWriteModel;
-import io.github.mat3e.model.repositories.TaskGroupRepository;
-import io.github.mat3e.model.repositories.TaskRepository;
+import io.github.mat3e.model.TaskGroupRepository;
+import io.github.mat3e.model.TaskRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.web.context.annotation.RequestScope;
 
 import java.util.List;
-import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -47,5 +43,6 @@ public class TaskGroupService {
         TaskGroup result = repository.findById(groupId)
                 .orElseThrow(() -> new IllegalArgumentException("TaskGroup with given id not found"));
         result.setDone(!result.isDone());
+        repository.save(result);
     }
 }
